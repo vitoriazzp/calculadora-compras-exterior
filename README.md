@@ -1,20 +1,17 @@
-# Redesign of the fee calculator in international purchases of gov.br
+# Redesign da calculadora de taxas nas compras internacionais do gov.br
 
-## Problem 
-The user interested in using it needs to do the calculation and check if the store they will buy from is on the list of "partner stores" manually. Outside this list, import taxes are higher, as they do not have a discount. 
+## Problema 
+O usuário interessado em utilizá-lo precisa fazer o cálculo e verificar se a loja da qual comprará está na lista de "lojas parceiras" manualmente. Fora dessa lista, os impostos de importação são mais altos, pois não têm desconto. Outro ponto é que, apesar de exibir a cotação do dólar, a pessoa precisa converter manualmente o valor em reais para colocá-lo na calculadora, o que pode dificultar, pois a pessoa pode estar lidando com valores em dólares em vez de reais.
 
-Another point is that despite displaying the dollar rate, the person needs to manually convert the value into real to put it in the calculator, which can make it difficult since the person may be dealing with dollar values instead of reais. 
+## Solução
+Automatização do cálculo das taxas e também conversão do valor para real ou dólar. Verificação se a loja informada pela pessoa está ou não na lista de lojas parceiras. 
+Deixando a pessoa apenas para entender o valor da compra e as taxas que o Governo Federal do Brasil irá aplicar.
 
-## Solution 
-Automation of the calculation of fees and also conversion of the value to be in real or dollar. Check whether or not the store entered by the person is on the list of partner stores. 
+## Melhorias de Design 
+- Uso da biblioteca de componentes ShadCn
+- Uso da biblioteca de ícones gratuitos Font Awesome
 
-Leaving the person only to understand the value for the purchase and the fees that the Federal Government of Brazil will apply. 
-
-## Design Features
-- Use of ShadCn components library
-- Use of Font Awesome free icons library 
-
-## Coming soon
-- Mobile view
-- English language 
-- preview on vercel
+## Em breve
+- Visualização móvel
+- Disponível também em inglês
+- Live Preview no Vercel
