@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Impostos - Remessa Conforme</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 222.2 47.4% 11.2%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96.1%;
+            --secondary-foreground: 222.2 47.4% 11.2%;
+            --muted: 210 40% 96.1%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96.1%;
+            --accent-foreground: 222.2 47.4% 11.2%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 222.2 84% 4.9%;
+            --radius: 0.5rem;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--input));
+            background-color: transparent;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsl(var(--ring) / 0.1);
+        }
+
+        .select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--input));
+            background-color: transparent;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            transition: background-color 0.15s ease-in-out;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .resultado-calculo {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: hsl(var(--muted));
+        }
+
+        .resultado-calculo p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       
+        <div>
+            <h1 class="text-2xl font-bold mb-6">Calculadora
+                Compras Internacionais</h1>
+    
+            <p class="text-sm text-gray-600 mb-6">
+                o “Programa Remessa Conforme” (PRC)! É um programa da Receita Federal que certifica as lojas de e-commerce, simplificando o pagamento de impostos na hora da compra. Assim, suas compras chegam sem complicação!
+            </p>
+        </div>
+        <div class="card">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Digite o nome do site ou empresa:</label>
+                    <input type="text" id="searchInput" class="input" placeholder="Ex: Amazon, Shopee...">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Selecione a moeda:</label>
+                    <select id="moedaSelect" class="select">
+                        <option value="USD">Dólar (USD)</option>
+                        <option value="BRL">Real (BRL)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Digite o valor da compra:</label>
+                    <input type="number" id="valueInput" class="input" placeholder="00.00" step="0.01">
+                </div>
+
+                <button onclick="verificarEmpresa()" class="button w-full">
+                    Verificar
+                </button>
+            </div>
+        </div>
+
+        <div id="result" class="mt-4"></div>
+
+        <div id="calculadora" class="card mt-4" style="display: none;">
+            <h2 class="text-xl font-semibold mb-4">Resultado do Cálculo</h2>
+            <div id="resultadoCalculo" class="resultado-calculo"></div>
+        </div>
+    </div>
+
+    <script>
+        const empresasCertificadas = [
+            "Aliexpress",
+            "Amazon",
+            "Shopee",
+            "Shein",
+            "Wish",
+            "Banggood",
+            "Gearbest",
+            "LightInTheBox",
+            "MiniInTheBox",
+            "TomTop",
+            "Temu"
+        ];
+
+        // Taxa de câmbio (você pode atualizar isso com uma API de câmbio em tempo real)
+        const taxaCambio = 5.0; // 1 USD = 5 BRL (exemplo)
+
+        function converterMoeda(valor, deMoeda, paraMoeda) {
+            if (deMoeda === paraMoeda) return valor;
+            if (deMoeda === 'USD' && paraMoeda === 'BRL') return valor * taxaCambio;
+            if (deMoeda === 'BRL' && paraMoeda === 'USD') return valor / taxaCambio;
+        }
+
+        function calcularImpostos(valorDolar) {
+            const taxaSISCOMEX = 15;
+            const taxaPISCOFINS = 0.0925;
+            const taxaII = 0.60;
+            const taxaICMS = 0.17;
+
+            if (valorDolar <= 50) {
+                return {
+                    valorProduto: valorDolar,
+                    valorTotal: valorDolar,
+                    impostos: 0,
+                    mensagem: "Isento de impostos federais (apenas ICMS estadual pode ser cobrado)"
+                };
+            }
+
+            const valorProduto = valorDolar;
+            const valorII = valorProduto * taxaII;
+            const valorPISCOFINS = valorProduto * taxaPISCOFINS;
+            const baseICMS = valorProduto + valorII + valorPISCOFINS + taxaSISCOMEX;
+            const valorICMS = baseICMS * taxaICMS;
+            
+            const totalImpostos = valorII + valorPISCOFINS + valorICMS + taxaSISCOMEX;
+            const valorTotal = valorProduto + totalImpostos;
+
+            return {
+                valorProduto: valorProduto.toFixed(2),
+                valorII: valorII.toFixed(2),
+                valorPISCOFINS: valorPISCOFINS.toFixed(2),
+                valorICMS: valorICMS.toFixed(2),
+                taxaSISCOMEX: taxaSISCOMEX.toFixed(2),
+                valorTotal: valorTotal.toFixed(2),
+                impostos: totalImpostos.toFixed(2)
+            };
+        }
+
+        function verificarEmpresa() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const valorInput = parseFloat(document.getElementById('valueInput').value);
+            const moedaSelecionada = document.getElementById('moedaSelect').value;
+            const resultDiv = document.getElementById('result');
+            const calculadoraDiv = document.getElementById('calculadora');
+            const resultadoCalculoDiv = document.getElementById('resultadoCalculo');
+            
+            const encontrada = empresasCertificadas.some(empresa => 
+                empresa.toLowerCase().includes(input) || input.includes(empresa.toLowerCase())
+            );
+
+            if (encontrada) {
+                resultDiv.className = 'success';
+                resultDiv.textContent = '✓ Esta empresa está certificada no programa Remessa Conforme!';
+                
+                if (!isNaN(valorInput)) {
+                    calculadoraDiv.style.display = 'block';
+                    
+                    // Converter valor para dólar se necessário
+                    const valorEmDolar = moedaSelecionada === 'BRL' ? 
+                        converterMoeda(valorInput, 'BRL', 'USD') : 
+                        valorInput;
+
+                    const resultado = calcularImpostos(valorEmDolar);
+                    
+                    // Converter valores para exibição
+                    const valorProdutoBRL = converterMoeda(parseFloat(resultado.valorProduto), 'USD', 'BRL');
+                    const valorTotalBRL = converterMoeda(parseFloat(resultado.valorTotal), 'USD', 'BRL');
+                    
+                    if (valorEmDolar <= 50) {
+                        resultadoCalculoDiv.innerHTML = `
+                            <p>Valor do produto: US$ ${resultado.valorProduto} (R$ ${valorProdutoBRL.toFixed(2)})</p>
+                            <p>${resultado.mensagem}</p>
+                            <p>Valor total estimado: US$ ${resultado.valorTotal} (R$ ${valorTotalBRL.toFixed(2)})</p>
+                        `;
+                    } else {
+                        const valorIIBRL = converterMoeda(parseFloat(resultado.valorII), 'USD', 'BRL');
+                        const valorPISCOFINSBRL = converterMoeda(parseFloat(resultado.valorPISCOFINS), 'USD', 'BRL');
+                        const valorICMSBRL = converterMoeda(parseFloat(resultado.valorICMS), 'USD', 'BRL');
+                        const taxaSISCOMEXBRL = converterMoeda(parseFloat(resultado.taxaSISCOMEX), 'USD', 'BRL');
+                        const impostosBRL = converterMoeda(parseFloat(resultado.impostos), 'USD', 'BRL');
+
+                        resultadoCalculoDiv.innerHTML = `
+                            <p>Valor do produto: US$ ${resultado.valorProduto} (R$ ${valorProdutoBRL.toFixed(2)})</p>
+                            <p>Imposto de Importação (II): US$ ${resultado.valorII} (R$ ${valorIIBRL.toFixed(2)})</p>
+                            <p>PIS/COFINS: US$ ${resultado.valorPISCOFINS} (R$ ${valorPISCOFINSBRL.toFixed(2)})</p>
+                            <p>ICMS: US$ ${resultado.valorICMS} (R$ ${valorICMSBRL.toFixed(2)})</p>
+                            <p>Taxa SISCOMEX: US$ ${resultado.taxaSISCOMEX} (R$ ${taxaSISCOMEXBRL.toFixed(2)})</p>
+                            <p>Total de impostos: US$ ${resultado.impostos} (R$ ${impostosBRL.toFixed(2)})</p>
+                            <p>Valor total estimado: US$ ${resultado.valorTotal} (R$ ${valorTotalBRL.toFixed(2)})</p>
+                        `;
+                    }
+                }
+            } else {
+                resultDiv.className = 'error';
+                resultDiv.textContent = '✗ Esta empresa não está na lista de certificadas do programa Remessa Conforme.';
+                calculadoraDiv.style.display = 'none';
+            }
+        }
+
+        // Adiciona funcionalidade de busca ao pressionar Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verificarEmpresa();
+            }
+        });
+
+        document.getElementById('valueInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verificarEmpresa();
+            }
+        });
+    </script>
+</body>
+</html>
