@@ -1,17 +1,69 @@
-# Redesign da calculadora de taxas nas compras internacionais do gov.br
+🧮 Purchase Calculator
+=====================================
 
-## Problema 
-O usuário interessado em utilizá-lo precisa fazer o cálculo e verificar se a loja da qual comprará está na lista de "lojas parceiras" manualmente. Fora dessa lista, os impostos de importação são mais altos, pois não têm desconto. Outro ponto é que, apesar de exibir a cotação do dólar, a pessoa precisa converter manualmente o valor em reais para colocá-lo na calculadora, o que pode dificultar, pois a pessoa pode estar lidando com valores em dólares em vez de reais.
+Tool that automates the calculation of taxes on international purchases, converts amounts between Brazilian reais and US dollars, and verifies whether the store entered is on the Brazilian Federal Government's list of **partner stores**.
 
-## Solução
-Automatização do cálculo das taxas e também conversão do valor para real ou dólar. Verificação se a loja informada pela pessoa está ou não na lista de lojas parceiras. 
-Deixando a pessoa apenas para entender o valor da compra e as taxas que o Governo Federal do Brasil irá aplicar.
+✨ Technologies
+-------------
+- ```HTML```, ```CSS``` and ```JavaScript vanilla```
+- Static deployment  ```Vercel```
+- ```Font Awesome Icons```
 
-## Melhorias de Design 
-- Uso da biblioteca de componentes ShadCn
-- Uso da biblioteca de ícones gratuitos Font Awesome
+🚀 Features
+------------------
 
-## Em breve
-- Visualização móvel
-- Disponível também em inglês
-- Live Preview no Vercel
+- Automatic calculation of import taxes based on the value entered by the user.
+- Conversion of values between Brazilian real and US dollar using the exchange rate displayed on the interface.
+- Verification that the store entered is on the list of partner stores (with tax discounts).
+- Interface focused on clearly displaying the final purchase price, reducing the cognitive load for the user.
+
+📍 The Problem
+-------------
+
+On the official gov.br calculator, users must:  
+- Manually check whether the store is on the list of partner stores.  
+- Understand the tax difference themselves when the store is not a partner.  
+- Convert amounts between Brazilian reais and US dollars on their own, even when viewing the exchange rate.
+
+This makes the process more bureaucratic than it should be, especially for those who just want clarity on the final cost of their international purchase.
+
+💡 The Solution
+------------
+
+Este projeto automatiza:  
+- Calculation of import taxes based on the rules applied by the Federal Government.
+- Conversion between Brazilian real and US dollar.
+- Checking whether the store is on the list of partner stores.
+
+This way, the person only needs to enter the basic purchase details and can immediately see the final price with the applicable taxes, without having to do separate calculations or consult separate lists.
+
+
+🎨 Design Updates
+----------------------
+
+- Use of the **ShadCN** component library for more consistent visual structuring.
+- Use of the **Font Awesome** icon library to reinforce the hierarchy and meaning of interface elements.
+
+
+🚦 How to run the project
+-----------------------
+
+1. Clone the repository  
+   ```bash
+   git clone https://github.com/vitoriazzp/calculadora-compras-exterior.git
+   cd calculadora-compras-exterior
+
+2. Open the ```index.html``` file directly in your browser
+
+- Double-click the file, or
+- Use a Live Server extension in VS Code, if you prefer.
+
+🌐 Deploy
+----------------------
+You can access the production version here:
+https://calculadora-compras-exterior.vercel.app/
+
+📅 Em breve
+- Versão com layout otimizado para dispositivos móveis.
+- Disponível também em inglês.
+- Aperfeiçoamento visual com componentes reutilizáveis.
